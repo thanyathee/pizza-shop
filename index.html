@@ -46,11 +46,6 @@ canvas{position:fixed;inset:0;touch-action:none;display:block}
 #boost{position:fixed;right:12px;bottom:calc(env(safe-area-inset-bottom,0px) + 60px);background:var(--pill);border:0;border-radius:16px;padding:8px 12px;font:inherit;font-size:13px;color:var(--ink);box-shadow:0 3px 0 rgba(0,0,0,.2);opacity:.65}
 #boost.ready{opacity:1;background:#ffd23f}
 #boost.active{opacity:1;background:var(--tomato);color:#fff;box-shadow:0 3px 0 #9c2a1b}
-#exp,#imp{position:fixed;bottom:calc(env(safe-area-inset-bottom,0px) + 12px);width:40px;height:40px;border-radius:50%;border:0;background:var(--pill);font-size:16px;box-shadow:0 3px 0 rgba(0,0,0,.2);color:var(--ink)}
-#exp{right:108px}
-#imp{right:60px}
-#reset{position:fixed;right:12px;bottom:calc(env(safe-area-inset-bottom,0px) + 12px);width:40px;height:40px;border-radius:50%;border:0;background:var(--pill);font-size:18px;box-shadow:0 3px 0 rgba(0,0,0,.2);color:var(--ink)}
-#reset:focus-visible{outline:3px solid #ffd23f}
 </style>
 </head>
 <body>
@@ -64,9 +59,7 @@ canvas{position:fixed;inset:0;touch-action:none;display:block}
 <button id="mission" type="button"><span id="mt">📋 มิชชั่น</span><div class="mb"><i id="mbar"></i></div></button>
 <button id="boost" type="button"><span id="bt">🚀</span></button>
 <div id="toast"></div>
-<button id="exp" type="button" aria-label="ส่งออกเซฟ">💾</button>
-<button id="imp" type="button" aria-label="นำเข้าเซฟ">📥</button>
-<button id="reset" aria-label="เริ่มเกมใหม่">↺</button>
+
 <script>
 (()=>{
 const cv=document.getElementById('c');let ctx=cv.getContext('2d');
@@ -257,7 +250,8 @@ if(impBtn)impBtn.onclick=()=>{const code=prompt('วางโค้ดเซฟ�
     st=migrate(r);st.savedAt=Date.now();localStorage.setItem(KEY,JSON.stringify(st));
     toast('นำเข้าเซฟแล้ว กำลังโหลดใหม่…');setTimeout(()=>location.reload(),700);
   }catch(e){toast('โค้ดเซฟไม่ถูกต้อง ❌');}};
-document.getElementById('reset').onclick=async()=>{if(confirm('เริ่มเกมใหม่ทั้งหมด?')){st=Object.assign({},DEF,{savedAt:Date.now()});try{localStorage.setItem(KEY,JSON.stringify(st));}catch(e){}
+const resetBtn=document.getElementById('reset');
+if(resetBtn)resetBtn.onclick=async()=>{if(confirm('เริ่มเกมใหม่ทั้งหมด?')){st=Object.assign({},DEF,{savedAt:Date.now()});try{localStorage.setItem(KEY,JSON.stringify(st));}catch(e){}
   if(cloud){try{await cloud.set({json:JSON.stringify(st)});}catch(e){}}location.reload();}};
 (async()=>{try{
   for(let i=0;i<30&&!(window.claude&&window.claude.use);i++)await new Promise(r=>setTimeout(r,100));
